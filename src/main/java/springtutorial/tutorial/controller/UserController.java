@@ -2,6 +2,8 @@ package springtutorial.tutorial.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -40,13 +42,13 @@ public class UserController {
 
     //create user
     @PostMapping
-    public Users createUser(@RequestBody Users user){
+    public Users createUser(@Valid @RequestBody Users user){
         return this.userRepository.save(user);
     }
 
     //update user
     @PutMapping("/{id}")
-    public Users updateUser(@RequestBody Users user, @PathVariable(value = "id") long userId){
+    public Users updateUser(@Valid @RequestBody Users user, @PathVariable(value = "id") long userId){
         Users existingUser = this.userRepository.findById(userId).orElseThrow(()-> new ResourceNotFoundException("User not found with id : " + userId));
         existingUser.setFirstName(user.getFirstName());
         existingUser.setLastName(user.getLastName());
